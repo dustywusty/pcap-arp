@@ -2,15 +2,12 @@
   "name": "net-arp",
   "version": "0.0.1",
   "dependencies": {
-    "logule": "*",
-    "raw-socket": "*"
+    "pcap": "*"
   },
   "devDependencies" : {
     "jshint" : "*",
     "jshint-stylish" : "*",
-    "madge": "*",
-    "mocha": "*",
-    "supertest": "*"
+    "madge": "*"
   },
   "jshintConfig" : {
     "camelcase" : "true",
