@@ -1,62 +1,33 @@
-var raw = require('raw-socket');
+var pcap = require('pcap')
+  , pcap_session = pcap.createSession('en0', 'arp');
 
-// - http://www.scs.stanford.edu/histar/src/uinc/linux/if_ether.h
+var request = new Buffer([
+  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, //BROADCAST
+  0xb8, 0xf6, 0xb1, 0x1c, 0x2e, 0x07, //SRC
 
-var options = {
-  protocol: 2054
-};
+  0x08, 0x06, //EtherType
 
-var socket = raw.createSocket (options);
-socket.setOption (raw.SocketLevel.IPPROTO_IP, raw.SocketOption.IP_HDRINCL,
-  new Buffer ([0x00, 0x00, 0x00, 0x01]), 4);
-
-var buffer = new Buffer([
   0x00, 0x01, //HTYPE
   0x08, 0x00, //PTYPE
-  0x06, 0x04, //HLEN - PLEN
+  0x06, 0x04, //HLEN , PLEN
   0x00, 0x01, //OPER
 
-  0xb8, 0xf6, //SENDER MAC first 2 bytes
-  0xb1, 0x1c, //NEXT 2 bytes
-  0x2e, 0x07, //LAST 2 bytes
+  0xb8, 0xf6, 0xb1, 0x1c, 0x2e, 0x07, //SHA
+  0x0a, 0x00, 0x01, 0x07, //SPA
 
-  0x0a, 0x00, //SENDER IP first 2 bytes
-  0x01, 0x07, //LAST 2 bytes
-
-  0x00, 0x00, //TARGET MAC (ignored for request) first 2 bytes
-  0x00, 0x00, //NEXT 2 bytes
-  0x00, 0x00, //LAST 2 bytes
-
-  0x0a, 0x00, //TARGET IP first 2 bytes
-  0x01, 0x7c  //LAST 2 bytes
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //THA
+  0x0a, 0x00, 0x01, 0x01  //TPA
 ]);
 
-socket.on ("close", function () {
-  console.log ("socket closed");
-  process.exit (-1);
+pcap_session.inject(request);
+
+pcap_session.on('packet', function (raw_packet) {
+  var packet = pcap.decode.packet(raw_packet);
+
+  if (packet.link.arp.operation == 'request') {
+    return;
+  }
+
+  console.log(packet.link.arp.sender_ha + " -> " + packet.link.arp.sender_pa);
+
 });
-
-socket.on ("error", function (error) {
-  console.log ("error: " + error.toString ());
-  process.exit (-1);
-});
-
-socket.on ("message", function (buffer, source) {
-  console.log ("received " + buffer.length + " bytes from " + source);
-  console.log ("data: " + buffer.toString ("hex"));
-});
-
-function foo () {
-  target = "255.255.255.255";
-  socket.send (buffer, 0, buffer.length, target, function (error, bytes) {
-    if (error) {
-      console.log (error.toString ());
-    } else {
-      console.log ("sent " + bytes + " bytes to " + target);
-    }
-  });
-
-  setTimeout (foo, 1000);
-}
-
-foo();
