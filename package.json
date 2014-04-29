@@ -7,7 +7,8 @@
   "devDependencies" : {
     "jshint" : "*",
     "jshint-stylish" : "*",
-    "madge": "*"
+    "madge": "*",
+    "underscore" : "*"
   },
   "jshintConfig" : {
     "camelcase" : "true",
