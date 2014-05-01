@@ -1,7 +1,26 @@
 {
   "name": "net-arp",
   "version": "0.0.1",
+  "keywords" : [
+    "pcap",
+    "arp",
+    "spoof"
+  ],
+  "author": {
+    "name": "Dustin Clark",
+    "email": "dusty@clarkda.com",
+    "url": "https://github.com/clarkda"
+  },
+  "bugs": {
+    "url": "https://github.com/clarkda/pcap-arp/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clarkda/pcap-arp.git"
+  },
   "dependencies": {
+    "interfaces" : "*",
     "pcap": "*"
   },
   "devDependencies" : {
@@ -28,5 +47,6 @@
   },
   "scripts": {
     "test": "make test"
-  }
+  },
+  "main": "index.js"
 }
