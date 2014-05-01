@@ -1,4 +1,4 @@
-var session = require('./index.js').Arp
+var session = require('..').Arp
   , arpSession = session.createSession('en0', 'b8:f6:b1:1c:2e:07');
 
 arpSession.on('reply', function(reply) {
