@@ -1,16 +1,16 @@
-var arp = require('./lib/arp.js')
-  , arpBuffer = require('./lib/buffer.js')
-  , arpSession = arp.createSession('en0');
+var Arp       = require('./lib/arp.js')
+  , ArpBuffer = require('./lib/buffer.js');
 
-arpBuffer._setMacDestination('ff:ff:ff:ff:ff:ff');
-arpBuffer._setMacSource('b8:f6:b1:1c:2e:07');
-arpBuffer._setSourceHardwareAddress('b8:f6:b1:1c:2e:07');
-arpBuffer._setSourcePhysicalAddress('10.0.1.7');
-arpBuffer._setOperationRequest();
-arpBuffer._setTargetPhysicalAddress('10.0.1.1');
+/**
+ *
+ * @type {Arp|exports}
+ */
 
-arpSession.on('reply', function(reply) {
-  console.log(reply.link.arp.sender_pa + " is " + reply.link.arp.sender_ha);
-});
+exports.Arp = Arp;
 
-arpSession.sendPacket(arpBuffer);
+/**
+ *
+ * @type {ArpBuffer|exports}
+ */
+
+exports.ArpBuffer = ArpBuffer;
