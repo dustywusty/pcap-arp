@@ -6,9 +6,9 @@ arpSession.on('reply', function(reply) {
 });
 
 arpSession.on('request', function(request) {
-  console.log('request for ' + request.link.arp.target_pa);
+ // console.log('request for ' + request.link.arp.target_pa);
 });
 
-//for(var i = 0; i <= 255; i++) {
-//    arpSession.request('10.56.1.' + i);
-//}
+for(var i = 0; i <= 255; i++) {
+    arpSession.request('10.56.1.' + i);
+}
