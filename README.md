@@ -3,7 +3,7 @@
 ffffffffffffb8f6b11c2e0708060001080006040001b8f6b11c2e070a0001070000000000000a000100
 
 ```
-$ node index.js 
+$ node test.js
 10.0.1.6 is 40:3c:fc:05:a9:a3
 10.0.1.3 is 98:fe:94:1e:88:51
 10.0.1.1 is b8:c7:5d:c9:01:fb
